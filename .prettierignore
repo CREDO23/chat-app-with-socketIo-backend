@@ -1,0 +1,5 @@
+build
+dist
+ *.html
+ .gitignore
+ .prettierignore

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "allowJs": true ,
+        "module": "CommonJs",
+        "outDir": "dist",
+        "sourceMap": true ,
+    },
+    "exclude": ["node_modules" , "dist"] ,
+    "include": [ "./src/**/*" , "./src/**/*.ts" , "./src/global.d.ts"]
+} 
