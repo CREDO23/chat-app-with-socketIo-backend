@@ -1,2 +1,6 @@
 # chat-app-with-socketIo-backend
-A chat app in real time build with NextJs , expressJs , mongoDB ( in typescript )
+A chat app in real time with socket IO
+> Built with 
+- ExpressJs
+- MongoDB
+- ReactJs
