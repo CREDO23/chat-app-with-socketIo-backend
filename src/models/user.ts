@@ -19,7 +19,8 @@ const userSchema = new Schema<User>({
   newMessage: {
     type: [Schema.Types.ObjectId],
     ref: 'messages',
-  },
+    },
+  imageProfile : String,
 });
 
 export default model<User>('users', userSchema);

@@ -900,6 +900,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/hapi__joi@^17.1.8":
+  version "17.1.8"
+  resolved "https://registry.yarnpkg.com/@types/hapi__joi/-/hapi__joi-17.1.8.tgz#78b3d22c4c9e62709894abd8c664508051f29e6b"
+  integrity sha512-omVytnOAiAfzGUOQArujJr3heWxPrDHW7MF1ieqix1ngoGdhtJmSSDFVM+ZAOa7UmhlGJtltdgUAT03mfDu6kg==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"

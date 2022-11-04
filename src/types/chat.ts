@@ -1,9 +1,8 @@
-import { Schema } from 'mongoose'
+import { Schema } from 'mongoose';
 
 interface Chat {
-    admin: Schema.Types.ObjectId;
-    users : Schema.Types.ObjectId[];
+  admin: Schema.Types.ObjectId;
+  users: Schema.Types.ObjectId[];
 }
 
-
-export default Chat
+export default Chat;
