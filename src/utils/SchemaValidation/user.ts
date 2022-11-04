@@ -7,6 +7,7 @@ export const registerSchema = joi.object({
   password: joi.string().required(),
   email: joi.string().required(),
   newMessage: joi.array().optional(),
+  isLogged: joi.boolean()
 });
 
 export const updateSchema = joi.object({
@@ -16,4 +17,5 @@ export const updateSchema = joi.object({
   email: joi.string().optional(),
   newMessage: joi.array().optional(),
   imageProfile: joi.string().optional(),
+  isLogged: joi.boolean().optional()
 });

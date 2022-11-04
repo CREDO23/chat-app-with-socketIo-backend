@@ -21,7 +21,8 @@ const userSchema = new Schema<User>({
   newMessage: {
     type: [Schema.Types.ObjectId],
     ref: 'messages',
-  },
+    },
+  isLogged : Boolean,
   imageProfile: String,
 });
 

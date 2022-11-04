@@ -3,6 +3,7 @@ interface ClientResponse {
   data: unknown;
   error: unknown;
   success: boolean;
+  info: unknown;
 }
 
 export default ClientResponse;
