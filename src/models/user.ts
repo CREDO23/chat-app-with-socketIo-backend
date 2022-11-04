@@ -1,7 +1,7 @@
 import User from '../types/user';
 import { Schema, model } from 'mongoose';
 import * as express from 'express';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 const userSchema = new Schema<User>({
   userName: {
@@ -25,15 +25,15 @@ const userSchema = new Schema<User>({
   imageProfile: String,
 });
 
-userSchema.pre('save', async function  (next: express.NextFunction){
-    if (!this.isModified('password')) next();
+userSchema.pre('save', async function (next: express.NextFunction) {
+  if (!this.isModified('password')) next();
 
-    const salt = await bcrypt.genSalt(10)
+  const salt = await bcrypt.genSalt(10);
 
-    const hash = await bcrypt.hash(this.password, salt)
-    
-    this.password = hash
-    next()
-})
+  const hash = await bcrypt.hash(this.password, salt);
+
+  this.password = hash;
+  next();
+});
 
 export default model<User>('users', userSchema);
