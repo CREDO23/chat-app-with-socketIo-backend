@@ -4,3 +4,4 @@ A chat app in real time with socket IO
 - ExpressJs
 - MongoDB
 - ReactJs
+- Redux-toolkit
