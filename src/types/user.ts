@@ -5,8 +5,8 @@ interface USER {
   lastaName: string;
   password: string;
   email: string;
-    newMessage: Schema.Types.ObjectId[];
-    isLogged : boolean;
+  newMessage: Schema.Types.ObjectId[];
+  isLogged: boolean;
   imageProfile: string;
 }
 
