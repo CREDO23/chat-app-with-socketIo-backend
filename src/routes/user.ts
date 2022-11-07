@@ -3,7 +3,9 @@ import * as userControllers from '../controllers/user';
 
 const router: express.IRouter = express.Router();
 
-router.post('/register', userControllers.register);
+router.post('/singup', userControllers.register);
+
+router.post('/singin', userControllers.login);
 
 router.get('/', userControllers.getAllusers);
 

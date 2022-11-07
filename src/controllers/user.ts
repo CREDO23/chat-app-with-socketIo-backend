@@ -1,10 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { registerSchema, updateSchema } from '../utils/SchemaValidation/user';
+import {
+  registerSchema,
+  updateSchema,
+  loginSchema,
+} from '../utils/SchemaValidation/user';
 import * as error from 'http-errors';
 import User from '../models/user';
 import USER from '../types/user';
 import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import { signAccessToken } from '../utils/jwt/index';
 
 export const register = async (
   req: Request,
@@ -15,7 +21,7 @@ export const register = async (
     const result: USER = await registerSchema.validateAsync(req.body);
 
     if (result) {
-      const isExist = await User.findOne({ userName: req.body.userName }).catch(
+      const isExist = await User.findOne({ userName: result.userName }).catch(
         (error) => next(error),
       );
 
@@ -39,6 +45,46 @@ export const register = async (
   } catch (error) {
     if (error.isJoi) error.status = 422;
 
+    next(error);
+  }
+};
+
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result: USER = await loginSchema.validateAsync(req.body);
+
+    const user = await User.findOne({ userName: result.userName }).catch(
+      (error) => next(error),
+    );
+
+    if (!user) {
+      throw error.NotFound('Incorect userName or password');
+    }
+
+    const isMatch = await bcrypt.compareSync(result.password, user.password);
+
+    if (!isMatch) {
+      throw error.NotAcceptable('Incorect userName or password');
+    }
+
+    res.json(<ClientResponse>{
+      message: `Authenticate as ${user.email}`,
+      data: {
+        accessToken: await signAccessToken({
+          id: user.id,
+          userName: user.userName,
+        }),
+        user,
+      },
+      error: null,
+      success: true,
+    });
+  } catch (error) {
+    if (error.isJoi) error.status = 422;
     next(error);
   }
 };
