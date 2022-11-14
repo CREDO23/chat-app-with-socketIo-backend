@@ -4,7 +4,7 @@ import { Schema, model } from 'mongoose';
 const chatSchema = new Schema<Chat>(
   {
     admin: Schema.Types.ObjectId,
-    isGroup: {
+    isChannel: {
       type: Boolean,
       default: false,
     },

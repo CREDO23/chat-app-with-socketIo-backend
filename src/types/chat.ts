@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 
 interface Chat {
-  isGroup: boolean;
+  isChannel: boolean;
   admin?: Schema.Types.ObjectId;
   brandName?: string;
   avatar: string;
