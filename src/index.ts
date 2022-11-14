@@ -6,6 +6,8 @@ import connectDB from './configs/database';
 import ClientResponse from './types/clientResponse';
 import * as createError from 'http-errors';
 import userRouters from './routes/user'
+import chatRoutes from './routes/chat'
+import messageRoutes from './routes/message'
 
 dotenv.config();
 
@@ -27,6 +29,10 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.use('/api/users' , userRouters)
+app.use('/api/chats', chatRoutes)
+app.use('/api/messages', messageRoutes)
+
+
 
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
