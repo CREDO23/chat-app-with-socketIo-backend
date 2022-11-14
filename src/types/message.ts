@@ -5,7 +5,7 @@ interface Message {
   recipient: Schema.Types.ObjectId;
   chat?: Schema.Types.ObjectId;
   content: string;
-  isRead : boolean
+  isRead: boolean;
 }
 
 export default Message;

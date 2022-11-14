@@ -18,10 +18,10 @@ const messageSchema = new Schema<Message>(
       type: Schema.Types.ObjectId,
       ref: 'chats',
     },
-    isRead : {
-      type : Boolean,
-      default : false
-    }
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
