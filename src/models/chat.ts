@@ -4,17 +4,12 @@ import { Schema, model } from 'mongoose';
 const chatSchema = new Schema<Chat>(
   {
     admin: Schema.Types.ObjectId,
-    isChannel: {
-      type: Boolean,
-      default: false,
-    },
     brandName: {
-      type: String,
-      default: 'Anonyme',
+      type: String
     },
     avatar: String,
-    users: [Schema.Types.ObjectId],
-    messages: [Schema.Types.ObjectId],
+    users: [{type : Schema.Types.ObjectId , ref : 'users'}],
+    messages: [{ type : Schema.Types.ObjectId , ref : 'messages'}],
   },
   { timestamps: true },
 );

@@ -3,8 +3,7 @@ import message from '../models/message';
 import { create } from '../utils/SchemaValidation/message';
 import { Request, Response, NextFunction } from 'express';
 import ClientResponse from '../types/clientResponse';
-import chat from '../models/chat';
-import * as error from 'http-errors';
+
 
 export const createMessage = async (
   req: Request,
@@ -19,7 +18,7 @@ export const createMessage = async (
         ...result,
       });
 
-      const savedMessage = newMessage.save();
+      const savedMessage =await  newMessage.save();
 
       res.json(<ClientResponse>{
         message: 'Created successfully',
@@ -34,42 +33,3 @@ export const createMessage = async (
   }
 };
 
-export const getMessagesByChat = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
-  try {
-    const chatId = req.params.id;
-
-    const result = await chat.findById(chatId).populate({
-      path: 'messages',
-      select: 'sender recipient',
-      populate: [
-        {
-          path: 'sender',
-          select: 'userName email bio',
-        },
-        {
-          path: 'recipient',
-          select: 'userName email bio',
-        },
-      ],
-    });
-
-    if (!result || !result[0]) {
-      throw error.NotFound('Messages not found');
-    }
-
-    if (result) {
-      res.json(<ClientResponse>{
-        message: 'Messages found',
-        data: result,
-        error: null,
-        success: true,
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
