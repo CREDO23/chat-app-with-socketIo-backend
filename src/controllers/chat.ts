@@ -41,41 +41,40 @@ export const getChatByUser = async (
 ): Promise<void> => {
   try {
     const userId = req.params.chatId;
-    if(mongoose.isValidObjectId(userId)){
-      const result: Chat[] = await chat.find({ users: { $in: [`${userId}`] } }).populate({
-        path: 'messages',
-        select : 'sender recipient content updatedAt',
-        populate: [
-          {
-            path: 'sender',
-            select: 'userName email bio',
-          },
-          {
-            path: 'recipient',
-            select: 'userName email bio',
-          },
-        ],
-      });
-  
-      if (!result || !result[0]) {
-        throw error.NotFound('Chats not found')
-      }
-  
-      if(result){
-          res.json(<ClientResponse>{
-              message: 'Chat found',
-              data: result,
-              error: null,
-              success: true,
-            });
-      }
-    }else{
-      throw error.NotFound('Invalid ID')
-    }
+    if (mongoose.isValidObjectId(userId)) {
+      const result: Chat[] = await chat
+        .find({ users: { $in: [`${userId}`] } })
+        .populate({
+          path: 'messages',
+          select: 'sender recipient content updatedAt',
+          populate: [
+            {
+              path: 'sender',
+              select: 'userName email bio',
+            },
+            {
+              path: 'recipient',
+              select: 'userName email bio',
+            },
+          ],
+        }).sort({'updatedAt' : 'desc'})
 
-    
+      if (!result || !result[0]) {
+        throw error.NotFound('Chats not found');
+      }
+
+      if (result) {
+        res.json(<ClientResponse>{
+          message: 'Chat found',
+          data: result,
+          error: null,
+          success: true,
+        });
+      }
+    } else {
+      throw error.NotFound('Invalid ID');
+    }
   } catch (error) {
     next(error);
   }
 };
-

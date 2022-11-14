@@ -4,7 +4,6 @@ import { create } from '../utils/SchemaValidation/message';
 import { Request, Response, NextFunction } from 'express';
 import ClientResponse from '../types/clientResponse';
 
-
 export const createMessage = async (
   req: Request,
   res: Response,
@@ -18,7 +17,7 @@ export const createMessage = async (
         ...result,
       });
 
-      const savedMessage =await  newMessage.save();
+      const savedMessage = await newMessage.save();
 
       res.json(<ClientResponse>{
         message: 'Created successfully',
@@ -32,4 +31,3 @@ export const createMessage = async (
     next(error);
   }
 };
-

@@ -5,5 +5,4 @@ const router = express.Router();
 
 router.post('/', messageControllers.createMessage);
 
-
 export default router;
