@@ -37,7 +37,13 @@ export const register = async (
 
       res.json(<ClientResponse>{
         message: 'User created successfully',
-        data: savedUser,
+        data: {
+          accessToken: await signAccessToken({
+            id: savedUser.id,
+            userName: savedUser.userName,
+          }),
+          savedUser,
+        },
         error: null,
         success: true,
       });
@@ -98,22 +104,17 @@ export const getAllusers = async (
     const page = req?.query?.page || 1;
     const pageSize = req?.query?.size || 5;
     const search = req?.query?.search || '';
-    const sort = req?.query?.sort || 'asc';
-    const logged = req?.query?.isLogged || false;
+    const sort = req?.query?.sort || 'userName';
+  
 
     const documents = await User.find({})
       .sort(sort.toString())
-      .where({
-        $and: [{ isLogged: logged }],
-      });
 
     const users = await User.find({})
-      .sort(sort.toString())
+      .sort({'userName' : 'desc'})
       .limit(Number(pageSize))
       .skip((Number(page) - 1) * Number(pageSize))
-      .where({
-        $and: [{ isLogged: logged }],
-      });
+
 
     if (!users[0]) {
       throw error.NotFound('Not users yet');

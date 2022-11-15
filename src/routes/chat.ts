@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/', chatControllers.createChat);
 
-router.get('/:chatId', chatControllers.getChatByUser);
+router.get('/:userId', chatControllers.getChatByUser);
 
 export default router;

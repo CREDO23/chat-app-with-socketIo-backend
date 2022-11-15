@@ -2,7 +2,8 @@ import { Schema } from 'mongoose';
 
 interface Chat {
   admin?: Schema.Types.ObjectId;
-  brandName: string 
+  isPrivate : boolean;
+  name: string;
   avatar: string;
   users: Schema.Types.ObjectId[];
   messages: Schema.Types.ObjectId[];

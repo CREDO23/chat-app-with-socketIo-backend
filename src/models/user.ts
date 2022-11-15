@@ -25,7 +25,7 @@ const userSchema = new Schema<User>(
       ref: 'messages',
     },
     isLogged: Boolean,
-    imageProfile: String,
+    avatar: String,
   },
   {
     timestamps: true,

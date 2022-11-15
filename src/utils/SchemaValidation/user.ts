@@ -19,6 +19,6 @@ export const updateSchema = joi.object({
   password: joi.string(),
   email: joi.string(),
   newMessage: joi.array(),
-  imageProfile: joi.string(),
+  avatar: joi.string(),
   isLogged: joi.boolean(),
 });
