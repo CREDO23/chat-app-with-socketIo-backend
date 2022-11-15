@@ -5,3 +5,4 @@ A chat app in real time with socket IO
 - MongoDB
 - ReactJs
 - Redux-toolkit
+- Redux-persist
