@@ -8,7 +8,7 @@ interface USER {
   bio: string;
   newMessage: Schema.Types.ObjectId[];
   isLogged: boolean;
-  imageProfile: string;
+  avatar: string;
 }
 
 export default USER;

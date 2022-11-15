@@ -4,7 +4,11 @@ import { Schema, model } from 'mongoose';
 const chatSchema = new Schema<Chat>(
   {
     admin: Schema.Types.ObjectId,
-    brandName: {
+    isPrivate : {
+      type : Boolean,
+      default : true
+    },
+    name: {
       type: String,
     },
     avatar: String,

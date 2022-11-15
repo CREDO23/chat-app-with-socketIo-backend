@@ -40,7 +40,7 @@ export const getChatByUser = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId = req.params.chatId;
+    const userId = req.params.userId;
     if (mongoose.isValidObjectId(userId)) {
       const result: Chat[] = await chat
         .find({ users: { $in: [`${userId}`] } })
@@ -50,14 +50,15 @@ export const getChatByUser = async (
           populate: [
             {
               path: 'sender',
-              select: 'userName email bio',
+              select: 'userName',
             },
             {
               path: 'recipient',
-              select: 'userName email bio',
+              select: 'userName',
             },
           ],
-        }).sort({'updatedAt' : 'desc'})
+        })
+        
 
       if (!result || !result[0]) {
         throw error.NotFound('Chats not found');
