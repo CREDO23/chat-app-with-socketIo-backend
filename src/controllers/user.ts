@@ -101,38 +101,33 @@ export const getAllusers = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const page = req?.query?.page || 1;
-    const pageSize = req?.query?.size || 5;
-    const search = req?.query?.search || '';
-    const sort = req?.query?.sort || 'userName';
+    const search = req?.query?.search || 'all';
 
-    const documents = await User.find({}).sort(sort.toString());
+    if (search == 'all') {
+      const users = await User.find({});
+      if (!users[0]) {
+        throw error.NotFound('Not users yet');
+      }
 
-    const users = await User.find({})
-      .sort({ userName: 'desc' })
-      .limit(Number(pageSize))
-      .skip((Number(page) - 1) * Number(pageSize));
+      res.json(<ClientResponse>{
+        message: 'All users',
+        data: users,
+        error: null,
+        success: true,
+      });
+    } else {
+      const users = await User.find({ userName: { $in: [new RegExp(`${search}` , 'i')] } });
+      if (!users[0]) {
+        throw error.NotFound('Not users yet');
+      }
 
-    if (!users[0]) {
-      throw error.NotFound('Not users yet');
+      res.json(<ClientResponse>{
+        message: 'All users',
+        data: users,
+        error: null,
+        success: true,
+      });
     }
-
-    const totalDocuments = documents.length;
-
-    res.json(<ClientResponse>{
-      message: 'All users',
-      data: users,
-      error: null,
-      success: true,
-      info: {
-        totalDocuments,
-        totalPages: Math.floor(totalDocuments / Number(pageSize)) || 1,
-        sort,
-        page,
-        pageSize,
-        search,
-      },
-    });
   } catch (error) {
     next(error);
   }

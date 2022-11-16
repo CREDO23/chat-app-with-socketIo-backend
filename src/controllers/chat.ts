@@ -112,9 +112,13 @@ export const addMessage = async (
     const savedMessage = await newMessage.save();
 
     if (savedMessage) {
-      const updatedChat = await chat.findByIdAndUpdate(chatId, {
-        $push: { messages: savedMessage.id },
-      } , {new : true});
+      const updatedChat = await chat.findByIdAndUpdate(
+        chatId,
+        {
+          $push: { messages: savedMessage.id },
+        },
+        { new: true },
+      );
 
       res.json(<ClientResponse>{
         message: 'Message added successfully',
