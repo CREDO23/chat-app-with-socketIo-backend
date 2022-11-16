@@ -10,7 +10,7 @@ const userSchema = new Schema<User>(
       required: true,
     },
     firstName: String,
-    lastaName: String,
+    lastName: String,
     password: {
       type: String,
       required: true,
@@ -20,9 +20,9 @@ const userSchema = new Schema<User>(
       required: true,
     },
     bio: String,
-   lastConnection : Date,
+    lastConnection: String,
     avatar: String,
-    isLogged : Boolean,
+    isLogged: Boolean,
   },
   {
     timestamps: true,

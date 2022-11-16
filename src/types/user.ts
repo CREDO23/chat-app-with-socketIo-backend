@@ -1,12 +1,12 @@
 interface USER {
   userName: string;
   firstName: string;
-  lastaName: string;
+  lastName: string;
   password: string;
   email: string;
   bio: string;
   isLogged: boolean;
-  lastConnection : Date
+  lastConnection: string;
   avatar: string;
 }
 
