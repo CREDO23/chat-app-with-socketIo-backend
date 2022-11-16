@@ -13,6 +13,7 @@ const chatSchema = new Schema<Chat>(
     },
     avatar: String,
     users: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+    lastviews : Map,
     messages: [{ type: Schema.Types.ObjectId, ref: 'messages' }],
   },
   { timestamps: true },

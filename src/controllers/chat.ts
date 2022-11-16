@@ -3,7 +3,7 @@ import chat from '../models/chat';
 import message from '../models/message';
 import { Response, Request, NextFunction } from 'express';
 import * as error from 'http-errors';
-import { create, update } from '../utils/SchemaValidation/chat';
+import { create, pushMessage , updateLastView } from '../utils/SchemaValidation/chat';
 import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 
@@ -28,7 +28,25 @@ export const createChat = async (
           messages: [savedMessage.id.toString()],
         });
 
-        const savedChat = await newChat.save();
+        const savedChat = await (await (await newChat.save()).populate({
+          path: 'messages',
+          select: 'sender recipient content updatedAt',
+          options: { sort: { updatedAt: 1 } },
+          populate: [
+            {
+              path: 'sender',
+              select: 'userName',
+            },
+            {
+              path: 'recipient',
+              select: 'userName name',
+            },
+          ],
+        }))
+        .populate({
+          path: 'users',
+          select: 'userName avatar',
+        })
 
         res.json(<ClientResponse>{
           message: 'Created successfully',
@@ -99,11 +117,11 @@ export const addMessage = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+) : Promise<void> => {
   try {
     const chatId = req.params.chatId;
 
-    const result = await update.validateAsync(req.body);
+    const result = await pushMessage.validateAsync(req.body);
 
     const newMessage = new message({
       ...result,
@@ -137,3 +155,23 @@ export const addMessage = async (
     next(error);
   }
 };
+
+// export const updateLastViewChat = async (req : Request, res : Response , next : NextFunction) : Promise<void> => {
+//   try {
+
+//       const chatId = req.params.chatId
+
+//       const result = await updateLastView.validateAsync(req.body)
+
+//       if(result){
+//         const user = result.userName
+
+//         const lastview = result.lastView
+
+//         const updatedChat = await chat.findByIdAndUpdate(chatId , {$set : {lastviews[user] : lastview}})
+//       }
+
+//   } catch (error) {
+//     next(error)
+//   }
+// }

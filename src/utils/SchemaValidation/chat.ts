@@ -8,13 +8,18 @@ export const create = joi.object({
     users: joi.array().required(),
     message: joi.object({
         sender : joi.string().required(),
-        recipient : joi.string().required(),
+        recipient : joi.string().optional(),
         content : joi.string().required()
     })
 })
 
-export const update = joi.object({
+export const pushMessage = joi.object({
         sender : joi.string().required(),
-        recipient : joi.string().required(),
+        recipient : joi.string().optional(),
         content : joi.string().required()
+})
+
+export const updateLastView = joi.object({
+    userName : joi.string().required(),
+    lastview : joi.string().required()
 })

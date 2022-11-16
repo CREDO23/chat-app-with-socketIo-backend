@@ -116,7 +116,9 @@ export const getAllusers = async (
         success: true,
       });
     } else {
-      const users = await User.find({ userName: { $in: [new RegExp(`${search}` , 'i')] } });
+      const users = await User.find({
+        userName: { $in: [new RegExp(`${search}`, 'i')] },
+      });
       if (!users[0]) {
         throw error.NotFound('Not users yet');
       }
