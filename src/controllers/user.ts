@@ -105,16 +105,13 @@ export const getAllusers = async (
     const pageSize = req?.query?.size || 5;
     const search = req?.query?.search || '';
     const sort = req?.query?.sort || 'userName';
-  
 
-    const documents = await User.find({})
-      .sort(sort.toString())
+    const documents = await User.find({}).sort(sort.toString());
 
     const users = await User.find({})
-      .sort({'userName' : 'desc'})
+      .sort({ userName: 'desc' })
       .limit(Number(pageSize))
-      .skip((Number(page) - 1) * Number(pageSize))
-
+      .skip((Number(page) - 1) * Number(pageSize));
 
     if (!users[0]) {
       throw error.NotFound('Not users yet');

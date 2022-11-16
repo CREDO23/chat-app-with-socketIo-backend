@@ -1,8 +1,9 @@
 import Chat from '../types/chat';
 import chat from '../models/chat';
+import message from '../models/message';
 import { Response, Request, NextFunction } from 'express';
 import * as error from 'http-errors';
-import { create } from '../utils/SchemaValidation/chat';
+import { create, update } from '../utils/SchemaValidation/chat';
 import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 
@@ -12,21 +13,30 @@ export const createChat = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const result: Chat = await create.validateAsync(req.body);
+    const result = await create.validateAsync(req.body);
 
     if (result) {
-      const newChat = new chat({
-        ...result,
+      const newMessage = new message({
+        ...req.body.message,
       });
 
-      const savedChat = await newChat.save();
+      const savedMessage = await newMessage.save();
 
-      res.json(<ClientResponse>{
-        message: 'Created successfully',
-        data: savedChat,
-        error: null,
-        success: true,
-      });
+      if (savedMessage) {
+        const newChat = new chat({
+          ...result,
+          messages: [savedMessage.id.toString()],
+        });
+
+        const savedChat = await newChat.save();
+
+        res.json(<ClientResponse>{
+          message: 'Created successfully',
+          data: savedChat,
+          error: null,
+          success: true,
+        });
+      }
     }
   } catch (error) {
     if (error.isJoi) error.status = 422;
@@ -47,6 +57,7 @@ export const getChatByUser = async (
         .populate({
           path: 'messages',
           select: 'sender recipient content updatedAt',
+          options: { sort: { updatedAt: 1 } },
           populate: [
             {
               path: 'sender',
@@ -54,11 +65,15 @@ export const getChatByUser = async (
             },
             {
               path: 'recipient',
-              select: 'userName',
+              select: 'userName name',
             },
           ],
         })
-        
+        .populate({
+          path: 'users',
+          select: 'userName avatar',
+        })
+        .sort({ updatedAt: -1 });
 
       if (!result || !result[0]) {
         throw error.NotFound('Chats not found');
@@ -76,6 +91,45 @@ export const getChatByUser = async (
       throw error.NotFound('Invalid ID');
     }
   } catch (error) {
+    next(error);
+  }
+};
+
+export const addMessage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const chatId = req.params.chatId;
+
+    const result = await update.validateAsync(req.body);
+
+    const newMessage = new message({
+      ...result,
+    });
+
+    const savedMessage = await newMessage.save();
+
+    if (savedMessage) {
+      const updatedChat = await chat.findByIdAndUpdate(chatId, {
+        $push: { messages: savedMessage.id },
+      } , {new : true});
+
+      res.json(<ClientResponse>{
+        message: 'Message added successfully',
+        data: {
+          updatedChat,
+          message: savedMessage,
+        },
+        error: null,
+        success: true,
+      });
+    } else {
+      throw error.InternalServerError('Somethings went wrong');
+    }
+  } catch (error) {
+    if (error.isJoi) error.status = 422;
     next(error);
   }
 };
