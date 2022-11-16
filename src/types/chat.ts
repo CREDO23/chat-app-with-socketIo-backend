@@ -7,6 +7,7 @@ interface Chat {
   avatar: string;
   users: Schema.Types.ObjectId[];
   messages: Schema.Types.ObjectId[];
+  lastviews : Map<string, string>;
 }
 
 export default Chat;
