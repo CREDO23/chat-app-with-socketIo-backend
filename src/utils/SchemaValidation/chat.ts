@@ -6,5 +6,15 @@ export const create = joi.object({
     name: joi.string().optional(),
     avatar: joi.string().optional(),
     users: joi.array().required(),
-    messages: joi.array().required()
+    message: joi.object({
+        sender : joi.string().required(),
+        recipient : joi.string().required(),
+        content : joi.string().required()
+    })
+})
+
+export const update = joi.object({
+        sender : joi.string().required(),
+        recipient : joi.string().required(),
+        content : joi.string().required()
 })

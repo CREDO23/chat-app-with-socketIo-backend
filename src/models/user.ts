@@ -20,12 +20,9 @@ const userSchema = new Schema<User>(
       required: true,
     },
     bio: String,
-    newMessage: {
-      type: [Schema.Types.ObjectId],
-      ref: 'messages',
-    },
-    isLogged: Boolean,
+   lastConnection : Date,
     avatar: String,
+    isLogged : Boolean,
   },
   {
     timestamps: true,

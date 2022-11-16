@@ -1,4 +1,3 @@
-import { Schema } from 'mongoose';
 interface USER {
   userName: string;
   firstName: string;
@@ -6,8 +5,8 @@ interface USER {
   password: string;
   email: string;
   bio: string;
-  newMessage: Schema.Types.ObjectId[];
   isLogged: boolean;
+  lastConnection : Date
   avatar: string;
 }
 
