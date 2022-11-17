@@ -3,7 +3,11 @@ import chat from '../models/chat';
 import message from '../models/message';
 import { Response, Request, NextFunction } from 'express';
 import * as error from 'http-errors';
-import { create, pushMessage , updateLastView } from '../utils/SchemaValidation/chat';
+import {
+  create,
+  pushMessage,
+  updateLastView,
+} from '../utils/SchemaValidation/chat';
 import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 
@@ -28,25 +32,28 @@ export const createChat = async (
           messages: [savedMessage.id.toString()],
         });
 
-        const savedChat = await (await (await newChat.save()).populate({
-          path: 'messages',
-          select: 'sender recipient content updatedAt',
-          options: { sort: { updatedAt: 1 } },
-          populate: [
-            {
-              path: 'sender',
-              select: 'userName',
-            },
-            {
-              path: 'recipient',
-              select: 'userName name',
-            },
-          ],
-        }))
-        .populate({
+        const savedChat = await (
+          await (
+            await newChat.save()
+          ).populate({
+            path: 'messages',
+            select: 'sender recipient content updatedAt',
+            options: { sort: { updatedAt: 1 } },
+            populate: [
+              {
+                path: 'sender',
+                select: 'userName',
+              },
+              {
+                path: 'recipient',
+                select: 'userName name',
+              },
+            ],
+          })
+        ).populate({
           path: 'users',
           select: 'userName avatar',
-        })
+        });
 
         res.json(<ClientResponse>{
           message: 'Created successfully',
@@ -117,7 +124,7 @@ export const addMessage = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) : Promise<void> => {
+): Promise<void> => {
   try {
     const chatId = req.params.chatId;
 
@@ -136,14 +143,29 @@ export const addMessage = async (
           $push: { messages: savedMessage.id },
         },
         { new: true },
-      );
+      ).populate({
+        path: 'messages',
+        select: 'sender recipient content updatedAt',
+        options: { sort: { updatedAt: 1 } },
+        populate: [
+          {
+            path: 'sender',
+            select: 'userName',
+          },
+          {
+            path: 'recipient',
+            select: 'userName name',
+          },
+        ],
+      })
+      .populate({
+        path: 'users',
+        select: 'userName avatar',
+      })
 
       res.json(<ClientResponse>{
         message: 'Message added successfully',
-        data: {
-          updatedChat,
-          message: savedMessage,
-        },
+        data: updatedChat,
         error: null,
         success: true,
       });
