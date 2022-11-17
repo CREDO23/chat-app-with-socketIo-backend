@@ -105,9 +105,6 @@ export const getAllusers = async (
 
     if (search == 'all') {
       const users = await User.find({});
-      if (!users[0]) {
-        throw error.NotFound('Not users yet');
-      }
 
       res.json(<ClientResponse>{
         message: 'All users',
@@ -119,9 +116,6 @@ export const getAllusers = async (
       const users = await User.find({
         userName: { $in: [new RegExp(`${search}`, 'i')] },
       });
-      if (!users[0]) {
-        throw error.NotFound('Not users yet');
-      }
 
       res.json(<ClientResponse>{
         message: 'All users',
