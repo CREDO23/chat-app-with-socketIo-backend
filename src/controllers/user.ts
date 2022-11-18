@@ -21,9 +21,7 @@ export const register = async (
     const result: USER = await registerSchema.validateAsync(req.body);
 
     if (result) {
-      const isExist = await User.findOne({ userName: result.userName }).catch(
-        (error) => next(error),
-      );
+      const isExist = await User.findOne({ userName: result.userName }).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
       if (isExist) {
         throw error.Conflict('User already exists');
@@ -42,7 +40,7 @@ export const register = async (
             id: savedUser.id,
             userName: savedUser.userName,
           }),
-          savedUser,
+          user : savedUser,
         },
         error: null,
         success: true,
@@ -63,9 +61,7 @@ export const login = async (
   try {
     const result: USER = await loginSchema.validateAsync(req.body);
 
-    const user = await User.findOne({ userName: result.userName }).catch(
-      (error) => next(error),
-    );
+    const user = await User.findOne({ userName: result.userName }).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
     if (!user) {
       throw error.NotFound('Incorect userName or password');
@@ -104,7 +100,7 @@ export const getAllusers = async (
     const search = req?.query?.search || 'all';
 
     if (search == 'all') {
-      const users = await User.find({});
+      const users = await User.find({}).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
       res.json(<ClientResponse>{
         message: 'All users',
@@ -138,7 +134,7 @@ export const getUser = async (
     const { id } = req.params;
 
     if (mongoose.isValidObjectId(id)) {
-      const user = await User.findById(id).catch((error) => next(error));
+      const user = await User.findById(id).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
       if (!user) {
         throw error.NotFound('User not found');
@@ -172,7 +168,7 @@ export const updateUser = async (
 
       const updatedUser = await User.findByIdAndUpdate(id, result, {
         new: true,
-      }).catch((error) => next(error));
+      }).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
       if (!updatedUser) {
         throw error.NotFound('User not found');
@@ -200,9 +196,7 @@ export const deleteUser = async (
     const { id } = req.params;
 
     if (mongoose.isValidObjectId(id)) {
-      const deletedUser = await User.findByIdAndDelete(id).catch((error) =>
-        next(error),
-      );
+      const deletedUser = await User.findByIdAndDelete(id).select({password : 0 , createdAt : 0, updatedAt : 0 });
 
       if (!deletedUser) {
         throw error.NotFound('User not found');

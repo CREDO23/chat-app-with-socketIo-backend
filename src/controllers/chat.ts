@@ -100,9 +100,6 @@ export const getChatByUser = async (
         })
         .sort({ updatedAt: -1 });
 
-      if (!result || !result[0]) {
-        throw error.NotFound('Chats not found');
-      }
 
       if (result) {
         res.json(<ClientResponse>{
@@ -137,31 +134,33 @@ export const addMessage = async (
     const savedMessage = await newMessage.save();
 
     if (savedMessage) {
-      const updatedChat = await chat.findByIdAndUpdate(
-        chatId,
-        {
-          $push: { messages: savedMessage.id },
-        },
-        { new: true },
-      ).populate({
-        path: 'messages',
-        select: 'sender recipient content updatedAt',
-        options: { sort: { updatedAt: 1 } },
-        populate: [
+      const updatedChat = await chat
+        .findByIdAndUpdate(
+          chatId,
           {
-            path: 'sender',
-            select: 'userName',
+            $push: { messages: savedMessage.id },
           },
-          {
-            path: 'recipient',
-            select: 'userName name',
-          },
-        ],
-      })
-      .populate({
-        path: 'users',
-        select: 'userName avatar',
-      })
+          { new: true },
+        )
+        .populate({
+          path: 'messages',
+          select: 'sender recipient content updatedAt',
+          options: { sort: { updatedAt: 1 } },
+          populate: [
+            {
+              path: 'sender',
+              select: 'userName',
+            },
+            {
+              path: 'recipient',
+              select: 'userName name',
+            },
+          ],
+        })
+        .populate({
+          path: 'users',
+          select: 'userName avatar',
+        });
 
       res.json(<ClientResponse>{
         message: 'Message added successfully',
