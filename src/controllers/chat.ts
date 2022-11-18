@@ -100,7 +100,6 @@ export const getChatByUser = async (
         })
         .sort({ updatedAt: -1 });
 
-
       if (result) {
         res.json(<ClientResponse>{
           message: 'Chat found',
