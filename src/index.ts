@@ -8,10 +8,25 @@ import * as createError from 'http-errors';
 import userRouters from './routes/user'
 import chatRoutes from './routes/chat'
 import messageRoutes from './routes/message'
+import {createServer} from 'http'
+import {Server} from 'socket.io'
+import SocketInit from './socket'
 
 dotenv.config();
 
 const app: express.Application = express();
+const server = createServer(app)
+
+const io = new Server(server , {
+    cors: {
+            origin: '*',
+    }
+})
+
+new SocketInit(io)
+
+
+
 const PORT = process.env.PORT || 4400;
 
 connectDB(process.env.DB_URI);
@@ -60,6 +75,6 @@ app.use(
   },
 );
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);
 });
