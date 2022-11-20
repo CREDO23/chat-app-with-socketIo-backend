@@ -3,16 +3,12 @@ import chat from '../models/chat';
 import message from '../models/message';
 import { Response, Request, NextFunction } from 'express';
 import * as error from 'http-errors';
-import {
-  create,
-  pushMessage,
-} from '../utils/SchemaValidation/chat';
+import { create, pushMessage } from '../utils/SchemaValidation/chat';
 import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 import SocketInit from '../socket';
 
 
-const socket = SocketInit.getInstance()
 
 export const createChat = async (
   req: Request,
@@ -21,6 +17,8 @@ export const createChat = async (
 ): Promise<void> => {
   try {
     const result = await create.validateAsync(req.body);
+
+    const socket = SocketInit.getInstance();
 
     if (result) {
       const newMessage = new message({
@@ -58,7 +56,7 @@ export const createChat = async (
           select: 'userName avatar',
         });
 
-        socket.newChat(savedChat.name , savedChat)
+        socket.newChat(savedChat.name, savedChat);
 
         res.json(<ClientResponse>{
           message: 'Created successfully',
@@ -127,8 +125,8 @@ export const addMessage = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const socket = SocketInit.getInstance()
-    
+    const socket = SocketInit.getInstance();
+
     const chatId = req.params.chatId;
 
     const result = await pushMessage.validateAsync(req.body);
@@ -168,7 +166,7 @@ export const addMessage = async (
           select: 'userName avatar',
         });
 
-        socket.newChat(updatedChat.name , updatedChat)
+      socket.newChat(updatedChat.name, updatedChat);
 
       res.json(<ClientResponse>{
         message: 'Message added successfully',
