@@ -21,11 +21,7 @@ export const register = async (
     const result: USER = await registerSchema.validateAsync(req.body);
 
     if (result) {
-      const isExist = await User.findOne({ userName: result.userName }).select({
-        password: 0,
-        createdAt: 0,
-        updatedAt: 0,
-      });
+      const isExist = await User.findOne({ userName: result.userName })
 
       if (isExist) {
         throw error.Conflict('User already exists');
@@ -65,11 +61,7 @@ export const login = async (
   try {
     const result: USER = await loginSchema.validateAsync(req.body);
 
-    const user = await User.findOne({ userName: result.userName }).select({
-      password: 0,
-      createdAt: 0,
-      updatedAt: 0,
-    });
+    const user = await User.findOne({ userName: result.userName })
 
     if (!user) {
       throw error.NotFound('Incorect userName or password');

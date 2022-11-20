@@ -1,6 +1,6 @@
 import {Server , Socket} from 'socket.io'
 
-export class SocketInit {
+export default class SocketInit {
 
     private static instance : SocketInit
 
@@ -14,7 +14,8 @@ export class SocketInit {
         SocketInit.instance = this
     }
 
-    
-
+    public static getInstance(){
+        return SocketInit.instance
+    }
 
 }
