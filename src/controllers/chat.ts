@@ -8,8 +8,6 @@ import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 import SocketInit from '../socket';
 
-
-
 export const createChat = async (
   req: Request,
   res: Response,
@@ -55,6 +53,18 @@ export const createChat = async (
           path: 'users',
           select: 'userName avatar',
         });
+
+        const users = savedChat.users
+
+        const connectedUsers = socket.sessions
+
+        Object.keys(connectedUsers).forEach(user => {
+          if(users.some(userId => new String(userId) == user)){
+            console.log(true)
+            socket.io.to(connectedUsers[user]).emit('newChat' , savedChat)
+          }
+        })
+
 
         socket.newChat(savedChat.name, savedChat);
 
@@ -116,6 +126,7 @@ export const getChatByUser = async (
     }
   } catch (error) {
     next(error);
+    console.log(error)
   }
 };
 
