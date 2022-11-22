@@ -54,17 +54,15 @@ export const createChat = async (
           select: 'userName avatar',
         });
 
-        const users = savedChat.users
+        const users = result.users;
 
-        const connectedUsers = socket.sessions
+        const connectedUsers = socket.sessions;
 
-        Object.keys(connectedUsers).forEach(user => {
-          if(users.some(userId => new String(userId) == user)){
-            console.log(true)
-            socket.io.to(connectedUsers[user]).emit('newChat' , savedChat)
+        Object.keys(connectedUsers).forEach((user) => {
+          if (users.some((userId) => new String(userId) == user)) {
+            socket.io.to(connectedUsers[user]).emit('newChat', savedChat);
           }
-        })
-
+        });
 
         socket.newChat(savedChat.name, savedChat);
 
@@ -126,7 +124,6 @@ export const getChatByUser = async (
     }
   } catch (error) {
     next(error);
-    console.log(error)
   }
 };
 
