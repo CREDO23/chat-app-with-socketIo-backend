@@ -54,8 +54,7 @@ export const createChat = async (
           select: 'userName avatar',
         });
 
-
-        const users = result.users
+        const users = result.users;
 
         const connectedUsers = socket.sessions;
 
@@ -75,7 +74,6 @@ export const createChat = async (
         });
       }
     }
-
   } catch (error) {
     if (error.isJoi) error.status = 422;
     next(error);
