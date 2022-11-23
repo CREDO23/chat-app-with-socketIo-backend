@@ -11,9 +11,14 @@ const chatSchema = new Schema<Chat>(
     name: {
       type: String,
     },
-    avatar: String,
+    avatar: {
+      type: String,
+    },
     users: [{ type: Schema.Types.ObjectId, ref: 'users' }],
-    lastviews: Map,
+    lastviews: {
+      type : Map ,
+      default : {}
+    },
     messages: [{ type: Schema.Types.ObjectId, ref: 'messages' }],
   },
   { timestamps: true },

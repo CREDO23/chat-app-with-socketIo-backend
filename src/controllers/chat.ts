@@ -191,22 +191,26 @@ export const addMessage = async (
   }
 };
 
-// export const updateLastViewChat = async (req : Request, res : Response , next : NextFunction) : Promise<void> => {
-//   try {
+export const updateLastViewChat = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const chatId = req.params.chatId;
+    const userId = req.params.userId;
+    const lastview = req.params.lastview
 
-//       const chatId = req.params.chatId
+    const chatFound = await chat.findByIdAndUpdate(chatId);
 
-//       const result = await updateLastView.validateAsync(req.body)
+    chatFound.lastviews[`${userId}`] = lastview;
 
-//       if(result){
-//         const user = result.userName
+    await chatFound.save();
 
-//         const lastview = result.lastView
-
-//         const updatedChat = await chat.findByIdAndUpdate(chatId , {$set : {lastviews[user] : lastview}})
-//       }
-
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    res.json(<ClientResponse>{
+      message : `Chat updated successfully for ${userId}`
+    })
+  } catch (error) {
+    next(error);
+  }
+};

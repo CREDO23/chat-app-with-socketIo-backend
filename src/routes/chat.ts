@@ -9,4 +9,6 @@ router.get('/:userId', chatControllers.getChatByUser);
 
 router.put('/:chatId', chatControllers.addMessage);
 
+router.put('/:chatId/:userId/:lastview' , chatControllers.updateLastViewChat)
+
 export default router;
