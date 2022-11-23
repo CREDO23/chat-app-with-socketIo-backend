@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+    "start:dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+    "start": "/dist/index.js",
     "build": "tsc",
     "prepare-husky": "husky install",
     "lint": "eslint  src/**/*.ts",
