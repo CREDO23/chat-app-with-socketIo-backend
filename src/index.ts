@@ -20,7 +20,8 @@ const server = createServer(app)
 const io = new Server(server , {
     cors: {
             origin: '*',
-    }
+    },
+    pingTimeout : 120000
 })
 
 //connexxion with
