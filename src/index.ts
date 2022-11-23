@@ -21,7 +21,7 @@ const io = new Server(server , {
     cors: {
             origin: '*',
     },
-    pingTimeout : 120000
+    pingTimeout : 90000
 })
 
 //connexxion with
