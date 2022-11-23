@@ -28,12 +28,10 @@ export default class SocketInit {
       });
 
       socket.on('join_chat', (chatName) => {
-        console.log(chatName)
         socket.join(chatName);
       });
 
       rooms.forEach((room) => socket.join(room.name));
-      console.log(io.engine.clientsCount);
       this.sessions[socket.handshake.auth.userId] = socket.id;
       socket.on('disconnect', () => [console.log('A user disconnected')]);
     });
