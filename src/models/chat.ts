@@ -16,8 +16,8 @@ const chatSchema = new Schema<Chat>(
     },
     users: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     lastviews: {
-      type : Map ,
-      default : {}
+      type: Map,
+      default: new Map(),
     },
     messages: [{ type: Schema.Types.ObjectId, ref: 'messages' }],
   },

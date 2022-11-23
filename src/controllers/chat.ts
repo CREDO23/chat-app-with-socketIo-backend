@@ -199,17 +199,22 @@ export const updateLastViewChat = async (
   try {
     const chatId = req.params.chatId;
     const userId = req.params.userId;
-    const lastview = req.params.lastview
+    const lastview = req.params.lastview;
 
-    const chatFound = await chat.findByIdAndUpdate(chatId);
+    chat
+      .findById(chatId)
+      .then((result) => {
+        result.lastviews.set(userId,lastview)
 
-    chatFound.lastviews[`${userId}`] = lastview;
+        result.save((error) => {
+          if (error) next(error);
 
-    await chatFound.save();
-
-    res.json(<ClientResponse>{
-      message : `Chat updated successfully for ${userId}`
-    })
+          res.json(<ClientResponse>{
+            message: `Chat updated successfully for ${userId}`,
+          });
+        });
+      })
+      .catch((error) => next(error));
   } catch (error) {
     next(error);
   }
