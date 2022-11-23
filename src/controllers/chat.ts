@@ -204,7 +204,7 @@ export const updateLastViewChat = async (
     chat
       .findById(chatId)
       .then((result) => {
-        result.lastviews.set(userId,lastview)
+        result.lastviews.set(userId, lastview);
 
         result.save((error) => {
           if (error) next(error);
