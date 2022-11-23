@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "start": "/dist/index.js",
-    "build": "tsc",
+    "build": "yarn install && tsc",
     "prepare-husky": "husky install",
     "lint": "eslint  src/**/*.ts",
     "lint-fix": "eslint . src/**/*.ts --fix",
