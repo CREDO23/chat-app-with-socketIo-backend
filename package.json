@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-    "start": "/dist/index.js",
+    "start": "node dist/index.js",
     "build": "yarn install && tsc",
     "prepare-husky": "husky install",
     "lint": "eslint  src/**/*.ts",
