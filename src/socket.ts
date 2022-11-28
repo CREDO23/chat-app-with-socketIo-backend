@@ -12,7 +12,6 @@ export default class SocketInit {
     this.io = io;
     this.io.on('connection', async (socket: Socket) => {
       this.sessions[socket.handshake.auth.userId] = socket.id;
-
       io.to(socket.id).emit('user_connected');
 
       const rooms = await chat
