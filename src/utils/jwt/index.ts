@@ -17,7 +17,7 @@ export const signAccessToken = async (
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: '2 day',
+        expiresIn: '30 day',
       },
       (err, token) => {
         if (err) reject(err);

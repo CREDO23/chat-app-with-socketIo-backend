@@ -3,7 +3,7 @@ import { randomString } from '../utils/Random/index';
 import { Request, Response, NextFunction } from 'express';
 import user from '../models/user';
 import ClientResponse from '../types/clientResponse';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 export const resetpassword = async (
   req: Request,
@@ -15,19 +15,16 @@ export const resetpassword = async (
 
     const recoveryPasswor = randomString(6);
 
+    const salt = await bcrypt.genSalt(10);
 
-  const salt = await bcrypt.genSalt(10);
-
-  const hash = await bcrypt.hash(recoveryPasswor, salt);
+    const hash = await bcrypt.hash(recoveryPasswor, salt);
 
     const updatedUser = await user.findOneAndUpdate(
       { userName },
-      {password : hash}
+      { password: hash },
     );
 
-
     if (updatedUser) {
-
       await sendMail(
         updatedUser.email,
         'RESET PASSWORD',

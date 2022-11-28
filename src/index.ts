@@ -12,6 +12,7 @@ import resetPasswordRoute from './routes/resetPasswod'
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import SocketInit from './socket';
+import auth from './middleware/auth'
 
 dotenv.config();
 
@@ -42,6 +43,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
     message: 'Server is running ',
   });
 });
+
+
+app.use(auth())
 
 app.use('/api/users', userRouters);
 app.use('/api/chats', chatRoutes);

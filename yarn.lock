@@ -1715,7 +1715,7 @@ etag@~1.8.1:
 
 express-jwt@^7.7.7:
   version "7.7.7"
-  resolved "https://registry.npmjs.org/express-jwt/-/express-jwt-7.7.7.tgz"
+  resolved "https://registry.yarnpkg.com/express-jwt/-/express-jwt-7.7.7.tgz#b0400a8c759aba0774d84459e1d2eea7e9869d40"
   integrity sha512-7s04HZ7sAahx7lwKU5AInhVon1kWVitRFxd7cGUKQaLDOQJsAQjB/OEBXaN0GS22RBgX75TjOJXGY7myQmVz5A==
   dependencies:
     "@types/jsonwebtoken" "^8.5.8"
