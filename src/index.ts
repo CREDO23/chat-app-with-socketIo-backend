@@ -46,7 +46,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 app.use('/api/users', userRouters);
 app.use('/api/chats', chatRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/api/resetPasswod' ,  resetPasswordRoute)
+app.use('/api/resetPassword' ,  resetPasswordRoute)
 
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
