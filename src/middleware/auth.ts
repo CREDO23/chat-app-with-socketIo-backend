@@ -7,10 +7,6 @@ export default function () {
     secret: process.env.JWT_SECRET,
     algorithms: ['HS256'],
   }).unless({
-    path: [
-      '/api/users/singin',
-      '/api/users/singup',
-      '/api/resetPassword',
-    ],
+    path: ['/api/users/singin', '/api/users/singup', '/api/resetPassword'],
   });
 }
