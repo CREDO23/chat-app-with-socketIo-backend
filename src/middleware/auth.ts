@@ -10,7 +10,7 @@ export default function () {
     path: [
       '/api/users/singin',
       '/api/users/singup',
-      '/api/users/resetPassword',
+      '/api/resetPassword',
     ],
   });
 }
