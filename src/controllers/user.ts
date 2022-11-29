@@ -11,6 +11,7 @@ import ClientResponse from '../types/clientResponse';
 import mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { signAccessToken } from '../utils/jwt/index';
+import user from '../models/user';
 
 export const register = async (
   req: Request,
@@ -187,6 +188,36 @@ export const updateUser = async (
         error: null,
         success: true,
       });
+    } else {
+      throw error.BadRequest('Invalid ID');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (mongoose.isValidObjectId(id)) {
+      const { password } = req.body;
+
+      const salt = await bcrypt.genSalt(10);
+
+      const hash = await bcrypt.hash(password, salt);
+
+      const updtedUser = await user.findByIdAndUpdate(id, { password: hash });
+
+      if (updtedUser) {
+        res.json(<ClientResponse>{
+          message: 'Password changed',
+        });
+      }
     } else {
       throw error.BadRequest('Invalid ID');
     }

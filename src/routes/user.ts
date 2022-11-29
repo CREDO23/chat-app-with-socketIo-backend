@@ -13,6 +13,8 @@ router.get('/:id', userControllers.getUser);
 
 router.put('/:id', userControllers.updateUser);
 
+router.put('/:id', userControllers.updatePassword);
+
 router.delete('/:id', userControllers.deleteUser);
 
 export default router;
