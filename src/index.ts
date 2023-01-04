@@ -16,7 +16,7 @@ import auth from './middleware/auth'
 
 dotenv.config();
 
-const app: express.Application = express();
+ export const app: express.Application = express();
 const server = createServer(app);
 
 const io = new Server(server, {
