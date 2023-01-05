@@ -45,7 +45,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-app.use(auth())
+// app.use(auth())
 
 app.use('/api/users', userRouters);
 app.use('/api/chats', chatRoutes);
