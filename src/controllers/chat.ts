@@ -111,16 +111,18 @@ export const getChatByUser = async (
         })
         .sort({ updatedAt: -1 });
 
-      if (result) {
+      if (result.length > 0) {
         res.json(<ClientResponse>{
           message: 'Chat found',
           data: result,
           error: null,
           success: true,
         });
+      }else{
+        throw error.NotFound('Chat not found');
       }
     } else {
-      throw error.NotFound('Invalid ID');
+      throw error.BadRequest('Invalid ID');
     }
   } catch (error) {
     next(error);
