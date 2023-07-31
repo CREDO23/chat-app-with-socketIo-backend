@@ -1,6 +1,6 @@
 # chat-app-with-socketIo-backend
 A chat app in real time
-> Built with 
+> Built with :
 - ExpressJs
 - MongoDB
 - SocketIo
