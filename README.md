@@ -1,6 +1,6 @@
 # chat-app-with-socketIo-api
 
-A chat app in real time
+A real time chat app
 > Built with :
 - ExpressJs
 - MongoDB
