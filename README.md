@@ -1,4 +1,4 @@
-# chat-app-with-socketIo-api
+# Real time chat app (API)
 
 A real time chat app
 > Built with :
