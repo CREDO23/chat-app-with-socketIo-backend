@@ -1,4 +1,4 @@
-# Real time chat app (API)
+# Real time chat app (BACKEND)
 
 A real time chat app
 > Built with :
